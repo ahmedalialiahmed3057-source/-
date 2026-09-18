@@ -217,14 +217,26 @@ async function loadAll(){
  if(error){loadingAll=false;alert("تعذر تحميل الذكريات: "+error.message);return}
  state={images:[],audios:[],messages:[],music:null,start:""};
  for(const r of rows||[]){
-  let bucket=r.kind==="photo"?"photos":"voices";if(r.kind==="audio"&&(r.title||"").startsWith("🎵"))bucket="music";
-  let url=null;if(r.storage_path)try{url=await signed(bucket,r.storage_path)}catch(_){}
-  const x={...r,url};if(r.kind==="photo")state.images.push(x);else if(r.kind==="message")state.messages.push(x);else state.audios.push(x);if((r.title||"").startsWith("🎵"))state.music=x;
+  const x={...r,url:null};
+  if(r.kind==="photo")state.images.push(x);
+  else if(r.kind==="message")state.messages.push(x);
+  else state.audios.push(x);
+  if((r.title||"").startsWith("🎵"))state.music=x;
  }
- const {data:{user}}=await sb.auth.getUser();const {data:settings}=await sb.from("settings").select("start_date").eq("user_id",user.id).maybeSingle();state.start=settings?.start_date||"";
  state.images=[...new Map(state.images.map(x=>[x.storage_path||x.id,x])).values()];
  state.audios=[...new Map(state.audios.map(x=>[x.storage_path||x.id,x])).values()];
- render();if(state.music?.url)$("player").src=state.music.url;loadingAll=false;
+ const {data:{user}}=await sb.auth.getUser();
+ const {data:settings}=await sb.from("settings").select("start_date").eq("user_id",user.id).maybeSingle();
+ state.start=settings?.start_date||"";
+ render();
+ loadingAll=false;
+ const media=[...state.images,...state.audios].filter(x=>x.storage_path);
+ await Promise.all(media.map(async x=>{
+  const bucket=x.kind==="photo"?"photos":((x.title||"").startsWith("🎵")?"music":"voices");
+  try{x.url=await signed(bucket,x.storage_path);}catch(_){}
+ }));
+ render();
+ if(state.music?.url)$("player").src=state.music.url;
 }
 function render(){
  $("pc").textContent=state.images.length;const aud=state.audios.filter(x=>!(x.title||"").startsWith("🎵"));$("vc").textContent=aud.length;$("mc").textContent=state.messages.length;$("tc").textContent=state.images.length+aud.length+state.messages.length;
