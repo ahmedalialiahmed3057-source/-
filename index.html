@@ -158,8 +158,24 @@ async function signed(bucket,path){
  if(error) throw error; return data.signedUrl;
 }
 async function images(fs){
- try{for(const f of [...fs]){const path=await uploadFile("photos",f);await addMemory("photo",{title:f.name,storage_path:path});}await loadAll();page("photos");
- }catch(e){alert("فشل رفع الصورة: "+e.message)}
+ const files=[...fs||[]];
+ if(!files.length)return;
+ alert("جاري رفع "+files.length+" صورة... ❤️");
+ try{
+  for(const f of files){
+   if(!f.type.startsWith("image/"))throw Error("الملف المختار ليس صورة");
+   const path=await uploadFile("photos",f);
+   await addMemory("photo",{title:f.name,storage_path:path});
+  }
+  await loadAll();
+  page("photos");
+  alert("تمت إضافة الصور بنجاح ❤️");
+ }catch(e){
+  console.error("Photo upload error:",e);
+  alert("فشل رفع الصورة: "+(e?.message||e));
+ }finally{
+  const input=$("img"); if(input) input.value="";
+ }
 }
 async function audios(fs){
  try{for(const f of [...fs]){const path=await uploadFile("voices",f);await addMemory("audio",{title:f.name,storage_path:path});}await loadAll();page("voices");
