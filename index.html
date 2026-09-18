@@ -74,7 +74,7 @@ footer{text-align:center;color:#765f69;padding:25px}.music{position:fixed;left:1
  <div class="glass" style="padding:22px"><h3>💗 آخر شيء أضفناه</h3><p id="latest" class="muted">ابدأوا بصناعة أول ذكرى.</p></div>
 </section>
 
-<section id="photos" class="page hidden"><div class="section-title"><h2>📸 صورنا</h2><button class="btn" onclick="$('img').click()">إضافة صور</button><input id="img" type="file" accept="image/*" multiple style="display:none" onchange="images(this.files)"></div><div id="photosGrid" class="grid"></div></section>
+<section id="photos" class="page hidden"><div class="section-title"><h2>📸 صورنا</h2><button class="btn" type="button" onclick="document.getElementById('photoInput').click()">إضافة صور</button><input id="photoInput" type="file" accept="image/*" multiple style="display:none" onchange="images(this.files)"></div><div id="photosGrid" class="grid"></div></section>
 <section id="voices" class="page hidden"><div class="section-title"><h2>🎙️ أصواتنا</h2><button class="btn" onclick="page('add')">إضافة فويس</button></div><div id="voicesList" class="list"></div></section>
 <section id="messages" class="page hidden"><div class="section-title"><h2>💌 رسائلنا</h2><button class="btn" onclick="page('add')">رسالة جديدة</button></div><div id="messagesList" class="list"></div></section>
 <section id="timeline" class="page hidden"><div class="section-title"><h2>🕰️ خط ذكرياتنا</h2></div><div id="timelineList" class="timeline"></div></section>
@@ -174,7 +174,7 @@ async function images(fs){
   console.error("Photo upload error:",e);
   alert("فشل رفع الصورة: "+(e?.message||e));
  }finally{
-  const input=$("img"); if(input) input.value="";
+  const input=$("photoInput"); if(input) input.value=""; const addInput=$("img"); if(addInput) addInput.value="";
  }
 }
 async function audios(fs){
