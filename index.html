@@ -16,7 +16,7 @@ body:after{content:"";position:fixed;inset:0;z-index:-2;opacity:.55;background:r
 .login-card{width:min(460px,100%);padding:45px 30px;text-align:center;border:1px solid #ff477f55;border-radius:30px;background:#10060ddd;backdrop-filter:blur(18px);box-shadow:0 0 80px #e91e6340}
 .logo{font-family:"Great Vibes",cursive;font-size:55px;color:#ff6e9b}.heartbig{font-size:60px;animation:pulse 1.8s infinite}
 @keyframes pulse{50%{transform:scale(1.12);filter:drop-shadow(0 0 15px #ff477f)}}
-.login h1{font-size:26px;margin:4px}.muted{color:#c4aab5}.input{width:100%;padding:15px 18px;border-radius:16px;border:1px solid #ff477f66;background:#070207;color:#fff;outline:none;margin:20px 0}.btn{border:0;border-radius:16px;padding:13px 21px;background:linear-gradient(135deg,#df1d5b,#ff588d);color:#fff;font-weight:700;cursor:pointer;box-shadow:0 10px 30px #e91e6330}.btn.alt{background:#210d17;border:1px solid #ff477f55;box-shadow:none}.err{height:24px;color:#ff769d;margin-top:10px}
+.login h1{font-size:26px;margin:4px}.muted{color:#c4aab5}.input{width:100%;padding:15px 18px;border-radius:16px;border:1px solid #ff477f66;background:#070207;color:#fff;outline:none;margin:20px 0}.btn{border:0;border-radius:16px;padding:13px 21px;background:linear-gradient(135deg,#df1d5b,#ff588d);color:#fff;font-weight:700;cursor:pointer;box-shadow:0 10px 30px #e91e6330}.btn.alt{background:#210d17;border:1px solid #ff477f55;box-shadow:none}.err{height:24px;color:#ff769d;margin-top:10px}.recovery-card{width:min(460px,100%);padding:45px 30px;text-align:center;border:1px solid #ff477f55;border-radius:30px;background:#10060ddd;backdrop-filter:blur(18px);box-shadow:0 0 80px #e91e6340}
 #hearts{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}.float-heart{position:absolute;bottom:-40px;color:#ff477f;animation:rise linear forwards;opacity:.7;text-shadow:0 0 15px #ff477f}
 @keyframes rise{to{transform:translateY(-110vh) rotate(25deg);opacity:0}}
 header{position:sticky;top:0;z-index:10;background:#0c040be8;border-bottom:1px solid #ff477f33;backdrop-filter:blur(16px)}
@@ -33,13 +33,21 @@ footer{text-align:center;color:#765f69;padding:25px}.music{position:fixed;left:1
 <body>
 <div id="hearts"></div>
 <section id="login" class="login center">
- <div class="login-card">
+ <div id="loginCard" class="login-card">
   <div class="heartbig">❤️</div><div class="logo">Our Little World</div>
   <p class="muted">مكاننا السري... كل ما نحبّه، إلنا وحدنا.</p>
   <input id="email" class="input" type="email" placeholder="📧 إيميل الحساب المشترك" autocomplete="username">
   <input id="pass" class="input" type="password" placeholder="🔐 كلمة السر" autocomplete="current-password">
   <button class="btn" style="width:100%" onclick="login()">دخول إلى عالمنا ❤️</button>
   <div id="err" class="err"></div>
+ </div>
+ <div id="recoveryCard" class="recovery-card hidden">
+  <div class="heartbig">🔐</div><div class="logo">تغيير كلمة السر</div>
+  <p class="muted">اكتب كلمة سر جديدة لحسابنا المشترك ❤️</p>
+  <input id="newPass" class="input" type="password" placeholder="🔐 كلمة السر الجديدة" autocomplete="new-password">
+  <input id="newPass2" class="input" type="password" placeholder="🔐 تأكيد كلمة السر" autocomplete="new-password">
+  <button class="btn" style="width:100%" onclick="updatePassword()">حفظ كلمة السر ❤️</button>
+  <div id="recoveryErr" class="err"></div>
  </div>
 </section>
 
@@ -99,6 +107,18 @@ const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let state={images:[],audios:[],messages:[],music:null,start:""};
 const $=id=>document.getElementById(id);
 $("email").value=localStorage.getItem("owlEmail")||"";
+function showRecovery(){ $("loginCard").classList.add("hidden"); $("recoveryCard").classList.remove("hidden"); }
+async function updatePassword(){
+ const p=$("newPass").value, p2=$("newPass2").value;
+ if(p.length<6){$("recoveryErr").textContent="كلمة السر لازم تكون 6 أحرف أو أكثر ❤️";return}
+ if(p!==p2){$("recoveryErr").textContent="كلمتا السر غير متطابقتين ❤️";return}
+ $("recoveryErr").textContent="جاري حفظ كلمة السر...";
+ const {error}=await sb.auth.updateUser({password:p});
+ if(error){$("recoveryErr").textContent="فشل تغيير كلمة السر: "+error.message;return}
+ $("recoveryErr").textContent="تم تغيير كلمة السر ❤️";
+ history.replaceState({},document.title,location.pathname+location.search);
+ setTimeout(()=>openApp(),500);
+}
 async function login(){
  const email=$("email").value.trim(), password=$("pass").value;
  if(!email||!password){$("err").textContent="اكتب الإيميل وكلمة السر ❤️";return}
@@ -108,7 +128,10 @@ async function login(){
  localStorage.setItem("owlEmail",email);$("err").textContent="";await openApp();
 }
 $("pass").addEventListener("keydown",e=>{if(e.key==="Enter")login()});
-sb.auth.onAuthStateChange((_event,session)=>{if(session) openApp();});
+sb.auth.onAuthStateChange((event,session)=>{
+ if(event==="PASSWORD_RECOVERY"){showRecovery();return}
+ if(session && !location.hash.includes("type=recovery")) openApp();
+});
 async function openApp(){ $("login").classList.add("hidden");$("app").classList.remove("hidden");hearts(); await loadAll(); }
 async function logout(){await sb.auth.signOut();location.reload()}
 function page(id,el){document.querySelectorAll(".page").forEach(x=>x.classList.add("hidden"));$(id).classList.remove("hidden");document.querySelectorAll(".navlinks button").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active")}
@@ -181,5 +204,9 @@ function render(){
 }
 function toggleMusic(){const p=$("player");if(!p.src)return alert("أضف موسيقى أولاً 🎵");p.paused?p.play():p.pause()}
 function hearts(){if(window._hearts)return;window._hearts=1;setInterval(()=>{if(document.hidden)return;let h=document.createElement("span");h.className="float-heart";h.textContent=Math.random()>.25?"♥":"♡";h.style.left=Math.random()*100+"%";h.style.fontSize=(12+Math.random()*24)+"px";h.style.animationDuration=(5+Math.random()*7)+"s";$("hearts").appendChild(h);setTimeout(()=>h.remove(),13000)},650)}
-(async()=>{const {data:{session}}=await sb.auth.getSession();if(session)openApp()})();
+(async()=>{
+ const isRecovery=location.hash.includes("type=recovery") || new URLSearchParams(location.search).get("type")==="recovery";
+ if(isRecovery){showRecovery();return}
+ const {data:{session}}=await sb.auth.getSession();if(session)openApp()
+})();
 </script></body></html>
