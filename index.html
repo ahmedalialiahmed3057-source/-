@@ -108,6 +108,7 @@ const SUPABASE_URL="https://nsbtnwnmrqnwgkpbbvhu.supabase.co";
 const SUPABASE_KEY="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5zYnRud25tcnFud2drcGJidmh1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2NjUxMTksImV4cCI6MjEwNTI0MTExOX0.BNUym4XEwmY-3skwIfaDAf9SOm8hW18_miOscn1n6ec";
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let state={images:[],audios:[],messages:[],music:null,start:""};
+let loadingAll=false, photoUploading=false, appOpening=false;
 const $=id=>document.getElementById(id);
 $("email").value=localStorage.getItem("owlEmail")||"malakalimalakq@gmail.com";
 function showRecovery(){ $("loginCard").classList.add("hidden"); $("recoveryCard").classList.remove("hidden"); }
@@ -140,7 +141,7 @@ sb.auth.onAuthStateChange((event,session)=>{
  if(event==="PASSWORD_RECOVERY"){showRecovery();return}
  if(session && !location.hash.includes("type=recovery")) openApp();
 });
-async function openApp(){ $("login").classList.add("hidden");$("app").classList.remove("hidden");hearts(); await loadAll(); }
+async function openApp(){ if(appOpening)return; appOpening=true; $("login").classList.add("hidden");$("app").classList.remove("hidden");hearts(); try{await loadAll();}finally{appOpening=false;} }
 async function logout(){await sb.auth.signOut();location.reload()}
 function page(id,el){document.querySelectorAll(".page").forEach(x=>x.classList.add("hidden"));$(id).classList.remove("hidden");document.querySelectorAll(".navlinks button").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active")}
 function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
@@ -161,8 +162,10 @@ async function signed(bucket,path){
 }
 async function handlePhotoUpload(fs){ return images(fs); }
 async function images(fs){
+ if(photoUploading)return;
  const files=[...fs||[]];
  if(!files.length)return;
+ photoUploading=true;
  alert("جاري رفع "+files.length+" صورة... ❤️");
  try{
   for(const f of files){
@@ -177,6 +180,7 @@ async function images(fs){
   console.error("Photo upload error:",e);
   alert("فشل رفع الصورة: "+(e?.message||e));
  }finally{
+  photoUploading=false;
   const input=$("photoInput"); if(input) input.value=""; const addInput=$("img"); if(addInput) addInput.value="";
  }
 }
@@ -207,15 +211,20 @@ async function removeMemory(id,bucket,path){
  }catch(e){alert("فشل الحذف: "+e.message)}
 }
 async function loadAll(){
+ if(loadingAll)return;
+ loadingAll=true;
  const {data:rows,error}=await sb.from("memories").select("*").order("created_at",{ascending:false});
- if(error){alert("تعذر تحميل الذكريات: "+error.message);return}
+ if(error){loadingAll=false;alert("تعذر تحميل الذكريات: "+error.message);return}
  state={images:[],audios:[],messages:[],music:null,start:""};
  for(const r of rows||[]){
   let bucket=r.kind==="photo"?"photos":"voices";if(r.kind==="audio"&&(r.title||"").startsWith("🎵"))bucket="music";
   let url=null;if(r.storage_path)try{url=await signed(bucket,r.storage_path)}catch(_){}
   const x={...r,url};if(r.kind==="photo")state.images.push(x);else if(r.kind==="message")state.messages.push(x);else state.audios.push(x);if((r.title||"").startsWith("🎵"))state.music=x;
  }
- const {data:{user}}=await sb.auth.getUser();const {data:settings}=await sb.from("settings").select("start_date").eq("user_id",user.id).maybeSingle();state.start=settings?.start_date||"";render();if(state.music?.url)$("player").src=state.music.url;
+ const {data:{user}}=await sb.auth.getUser();const {data:settings}=await sb.from("settings").select("start_date").eq("user_id",user.id).maybeSingle();state.start=settings?.start_date||"";
+ state.images=[...new Map(state.images.map(x=>[x.storage_path||x.id,x])).values()];
+ state.audios=[...new Map(state.audios.map(x=>[x.storage_path||x.id,x])).values()];
+ render();if(state.music?.url)$("player").src=state.music.url;loadingAll=false;
 }
 function render(){
  $("pc").textContent=state.images.length;const aud=state.audios.filter(x=>!(x.title||"").startsWith("🎵"));$("vc").textContent=aud.length;$("mc").textContent=state.messages.length;$("tc").textContent=state.images.length+aud.length+state.messages.length;
