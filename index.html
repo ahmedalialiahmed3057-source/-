@@ -107,7 +107,7 @@ const SUPABASE_KEY="sb_publishable_tijJUsfKi17KqmORVNmpkw_-4Xe9mw";
 const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
 let state={images:[],audios:[],messages:[],music:null,start:""};
 const $=id=>document.getElementById(id);
-$("email").value=localStorage.getItem("owlEmail")||"";
+$("email").value=localStorage.getItem("owlEmail")||"malakalimalakq@gmail.com";
 function showRecovery(){ $("loginCard").classList.add("hidden"); $("recoveryCard").classList.remove("hidden"); }
 async function updatePassword(){
  const p=$("newPass").value, p2=$("newPass2").value;
@@ -122,11 +122,16 @@ async function updatePassword(){
 }
 async function login(){
  const email=$("email").value.trim(), password=$("pass").value;
+ if(!window.supabase){$("err").textContent="مكتبة تسجيل الدخول لم تُحمّل. حدّث الصفحة وحاول مرة ثانية ❤️";return}
  if(!email||!password){$("err").textContent="اكتب الإيميل وكلمة السر ❤️";return}
  $("err").textContent="جاري الدخول...";
- const {error}=await sb.auth.signInWithPassword({email,password});
- if(error){$("err").textContent="بيانات الدخول غير صحيحة أو الحساب غير مؤكد ❤️";return}
- localStorage.setItem("owlEmail",email);$("err").textContent="";await openApp();
+ try{
+  const {error}=await sb.auth.signInWithPassword({email,password});
+  if(error){console.error("Supabase login error:",error);$("err").textContent="خطأ الدخول: "+error.message;return}
+  localStorage.setItem("owlEmail",email);$("err").textContent="";await openApp();
+ }catch(e){
+  console.error(e);$("err").textContent="خطأ: "+(e?.message||e);
+ }
 }
 $("pass").addEventListener("keydown",e=>{if(e.key==="Enter")login()});
 sb.auth.onAuthStateChange((event,session)=>{
