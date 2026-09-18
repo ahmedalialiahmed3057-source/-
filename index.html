@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Our Little World ❤️</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&family=Great+Vibes&display=swap');
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;font-family:Cairo,Tahoma,sans-serif;color:#fff;background:#080207;min-height:100vh;overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;z-index:-3;background:linear-gradient(120deg,#080207,#19050f 45%,#090208);background-size:200% 200%;animation:bg 12s ease infinite}
+body:after{content:"";position:fixed;inset:0;z-index:-2;opacity:.55;background:radial-gradient(circle at 15% 20%,#ff216622 0 10%,transparent 35%),radial-gradient(circle at 85% 75%,#ff5d9a22 0 8%,transparent 35%)}
+@keyframes bg{50%{background-position:100% 50%}}
+.hidden{display:none!important}.center{display:grid;place-items:center}
+.login{min-height:100vh;padding:20px;position:relative;background:radial-gradient(ellipse at center,#4b0a2755,transparent 55%)}
+.login-card{width:min(460px,100%);padding:45px 30px;text-align:center;border:1px solid #ff477f55;border-radius:30px;background:#10060ddd;backdrop-filter:blur(18px);box-shadow:0 0 80px #e91e6340}
+.logo{font-family:"Great Vibes",cursive;font-size:55px;color:#ff6e9b}.heartbig{font-size:60px;animation:pulse 1.8s infinite}
+@keyframes pulse{50%{transform:scale(1.12);filter:drop-shadow(0 0 15px #ff477f)}}
+.login h1{font-size:26px;margin:4px}.muted{color:#c4aab5}.input{width:100%;padding:15px 18px;border-radius:16px;border:1px solid #ff477f66;background:#070207;color:#fff;outline:none;margin:20px 0}.btn{border:0;border-radius:16px;padding:13px 21px;background:linear-gradient(135deg,#df1d5b,#ff588d);color:#fff;font-weight:700;cursor:pointer;box-shadow:0 10px 30px #e91e6330}.btn.alt{background:#210d17;border:1px solid #ff477f55;box-shadow:none}.err{height:24px;color:#ff769d;margin-top:10px}
+#hearts{position:fixed;inset:0;pointer-events:none;z-index:20;overflow:hidden}.float-heart{position:absolute;bottom:-40px;color:#ff477f;animation:rise linear forwards;opacity:.7;text-shadow:0 0 15px #ff477f}
+@keyframes rise{to{transform:translateY(-110vh) rotate(25deg);opacity:0}}
+header{position:sticky;top:0;z-index:10;background:#0c040be8;border-bottom:1px solid #ff477f33;backdrop-filter:blur(16px)}
+nav{max-width:1150px;margin:auto;padding:12px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px}.brand{font-family:"Great Vibes",cursive;font-size:28px;color:#ff759f;white-space:nowrap}.navlinks{display:flex;gap:5px;overflow:auto}.navlinks button{background:none;border:0;color:#d5bdc7;padding:9px;cursor:pointer;white-space:nowrap}.navlinks button.active,.navlinks button:hover{color:#ff6e9b}
+main{max-width:1150px;margin:auto;padding:35px 18px 80px}.hero{text-align:center;padding:40px 0 25px}.hero h2{font-size:42px;margin:5px}.hero p{color:#cdb6bf}.glass{background:#130811c9;border:1px solid #ff477f33;border-radius:25px;box-shadow:0 15px 50px #0008;backdrop-filter:blur(14px)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:20px 0}.stat{padding:20px;text-align:center}.stat b{display:block;font-size:31px;color:#ff709d}.counter{padding:30px;text-align:center;margin:20px 0}.counter h3{margin:0;color:#ff83a9}.days{font-size:40px;font-weight:700;color:#fff;margin:10px}.time{color:#c9b1bb}
+.section-title{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:30px 0 15px}.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:15px}.photo{aspect-ratio:1;overflow:hidden;border-radius:19px;position:relative;background:#190b13;border:1px solid #ff477f33}.photo img{width:100%;height:100%;object-fit:cover;transition:.35s}.photo:hover img{transform:scale(1.06)}.delete{position:absolute;top:8px;left:8px;border:0;border-radius:50%;width:34px;height:34px;background:#000b;color:#fff;cursor:pointer}
+.list{display:grid;gap:13px}.item{padding:17px;border-radius:18px;background:#160a12;border:1px solid #ff477f2d}.itemtop{display:flex;justify-content:space-between;gap:10px}.item small{color:#a9929e}.item audio{width:100%;margin-top:12px}.message{white-space:pre-wrap;line-height:1.9;margin:10px 0 0}
+.form{max-width:720px;margin:auto;padding:25px;display:grid;gap:13px}.form textarea,.form input[type=text],.form input[type=date]{width:100%;padding:14px;border-radius:15px;border:1px solid #ff477f55;background:#090309;color:#fff;outline:none}.drop{padding:25px;text-align:center;border:1px dashed #ff477f66;border-radius:18px;color:#c6aab6}.empty{text-align:center;color:#937b87;padding:45px}.timeline{position:relative;margin:20px 0;padding-right:25px}.timeline:before{content:"";position:absolute;right:8px;top:0;bottom:0;width:2px;background:#ff477f55}.event{position:relative;margin:0 0 22px;padding:18px 20px}.event:before{content:"❤️";position:absolute;right:-3px;transform:translateX(50%);top:20px;font-size:15px}.event .date{color:#ff719e;font-weight:700}
+footer{text-align:center;color:#765f69;padding:25px}.music{position:fixed;left:15px;bottom:15px;z-index:12}.music button{border:1px solid #ff477f55;background:#170812;color:#fff;border-radius:50%;width:50px;height:50px;cursor:pointer;box-shadow:0 8px 25px #0008}
+@media(max-width:700px){.stats{grid-template-columns:repeat(2,1fr)}.hero h2{font-size:31px}.brand{font-size:24px}.navlinks{max-width:65vw}.grid{grid-template-columns:repeat(2,1fr)}}
+</style>
+</head>
+<body>
+<div id="hearts"></div>
+<section id="login" class="login center">
+ <div class="login-card">
+  <div class="heartbig">❤️</div><div class="logo">Our Little World</div>
+  <p class="muted">مكاننا السري... كل ما نحبّه، إلنا وحدنا.</p>
+  <input id="email" class="input" type="email" placeholder="📧 إيميل الحساب المشترك" autocomplete="username">
+  <input id="pass" class="input" type="password" placeholder="🔐 كلمة السر" autocomplete="current-password">
+  <button class="btn" style="width:100%" onclick="login()">دخول إلى عالمنا ❤️</button>
+  <div id="err" class="err"></div>
+ </div>
+</section>
+
+<section id="app" class="hidden">
+<header><nav>
+ <div class="brand">Our Little World ♡</div>
+ <div class="navlinks">
+  <button class="active" onclick="page('home',this)">الرئيسية</button>
+  <button onclick="page('photos',this)">📸 الصور</button>
+  <button onclick="page('voices',this)">🎙️ الفويسات</button>
+  <button onclick="page('messages',this)">💌 الرسائل</button>
+  <button onclick="page('timeline',this)">🕰️ ذكرياتنا</button>
+  <button onclick="page('add',this)">➕ إضافة</button>
+ </div>
+</nav></header>
+
+<main>
+<section id="home" class="page">
+ <div class="hero"><div class="logo">Our Little World ❤️</div><h2>أنتِ كل ما أريده...</h2><p>وكل لحظة وياج تستحق تبقى ذكرى.</p></div>
+ <div class="glass counter"><h3>❤️ صارلنا سوه</h3><div class="days" id="days">0 يوم</div><div class="time" id="sinceText">حدد تاريخ البداية من قسم الإضافة</div></div>
+ <div class="stats">
+  <div class="glass stat"><b id="pc">0</b>📸 صورة</div><div class="glass stat"><b id="vc">0</b>🎙️ فويس</div><div class="glass stat"><b id="mc">0</b>💌 رسالة</div><div class="glass stat"><b id="tc">0</b>🕰️ ذكرى</div>
+ </div>
+ <div class="glass" style="padding:22px"><h3>💗 آخر شيء أضفناه</h3><p id="latest" class="muted">ابدأوا بصناعة أول ذكرى.</p></div>
+</section>
+
+<section id="photos" class="page hidden"><div class="section-title"><h2>📸 صورنا</h2><button class="btn" onclick="page('add')">إضافة صور</button></div><div id="photosGrid" class="grid"></div></section>
+<section id="voices" class="page hidden"><div class="section-title"><h2>🎙️ أصواتنا</h2><button class="btn" onclick="page('add')">إضافة فويس</button></div><div id="voicesList" class="list"></div></section>
+<section id="messages" class="page hidden"><div class="section-title"><h2>💌 رسائلنا</h2><button class="btn" onclick="page('add')">رسالة جديدة</button></div><div id="messagesList" class="list"></div></section>
+<section id="timeline" class="page hidden"><div class="section-title"><h2>🕰️ خط ذكرياتنا</h2></div><div id="timelineList" class="timeline"></div></section>
+
+<section id="add" class="page hidden">
+ <div class="glass form">
+  <h2 style="margin-top:0">➕ أضيفي ذكرى</h2>
+  <label>📅 تاريخ بداية علاقتنا</label><input id="startDate" type="date">
+  <button class="btn alt" onclick="setStart()">حفظ تاريخ العداد ❤️</button>
+  <hr style="width:100%;border-color:#ff477f22">
+  <button class="btn alt" onclick="document.getElementById('img').click()">📸 اختيار صور</button><input id="img" type="file" accept="image/*" multiple hidden onchange="images(this.files)">
+  <button class="btn alt" onclick="document.getElementById('aud').click()">🎙️ اختيار فويسات</button><input id="aud" type="file" accept="audio/*" multiple hidden onchange="audios(this.files)">
+  <input id="title" type="text" placeholder="عنوان الرسالة (اختياري)">
+  <textarea id="text" placeholder="اكتب رسالة حب هنا... ❤️"></textarea>
+  <button class="btn" onclick="message()">💌 حفظ الرسالة</button>
+  <div class="drop">💡 الموسيقى اختيارية: يمكنك إضافة ملف صوتي من جهازك، وسيظهر في المشغل أسفل الشاشة.</div>
+  <button class="btn alt" onclick="document.getElementById('music').click()">🎵 اختيار موسيقى</button><input id="music" type="file" accept="audio/*" hidden onchange="setMusic(this.files[0])">
+  <button class="btn alt" onclick="logout()">🔒 قفل الموقع</button>
+ </div>
+</section>
+</main>
+<footer>صُنع بحب ❤️ Our Little World</footer>
+<div class="music"><button onclick="toggleMusic()" title="تشغيل/إيقاف الموسيقى">🎵</button><audio id="player" loop></audio></div>
+</section>
+
+<script>
+const SUPABASE_URL="https://nsbtnwnmrqnwgkpbbvhu.supabase.co";
+const SUPABASE_KEY="sb_publishable_tijJUsfKi17KqmORVNmpkw_-4Xe9mw";
+const sb=window.supabase.createClient(SUPABASE_URL,SUPABASE_KEY);
+let state={images:[],audios:[],messages:[],music:null,start:""};
+const $=id=>document.getElementById(id);
+$("email").value=localStorage.getItem("owlEmail")||"";
+async function login(){
+ const email=$("email").value.trim(), password=$("pass").value;
+ if(!email||!password){$("err").textContent="اكتب الإيميل وكلمة السر ❤️";return}
+ $("err").textContent="جاري الدخول...";
+ const {error}=await sb.auth.signInWithPassword({email,password});
+ if(error){$("err").textContent="بيانات الدخول غير صحيحة أو الحساب غير مؤكد ❤️";return}
+ localStorage.setItem("owlEmail",email);$("err").textContent="";await openApp();
+}
+$("pass").addEventListener("keydown",e=>{if(e.key==="Enter")login()});
+sb.auth.onAuthStateChange((_event,session)=>{if(session) openApp();});
+async function openApp(){ $("login").classList.add("hidden");$("app").classList.remove("hidden");hearts(); await loadAll(); }
+async function logout(){await sb.auth.signOut();location.reload()}
+function page(id,el){document.querySelectorAll(".page").forEach(x=>x.classList.add("hidden"));$(id).classList.remove("hidden");document.querySelectorAll(".navlinks button").forEach(x=>x.classList.remove("active"));if(el)el.classList.add("active")}
+function esc(s){return String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[m]))}
+function safeName(n){return n.replace(/[^a-zA-Z0-9._-]/g,"_")}
+async function addMemory(kind,fields){
+ const {data:{user}}=await sb.auth.getUser(); if(!user) throw Error("not signed in");
+ const {data,error}=await sb.from("memories").insert({user_id:user.id,kind,...fields}).select().single();
+ if(error) throw error; return data;
+}
+async function uploadFile(bucket,file){
+ const path=crypto.randomUUID()+"_"+safeName(file.name);
+ const {error}=await sb.storage.from(bucket).upload(path,file,{contentType:file.type,upsert:false});
+ if(error) throw error; return path;
+}
+async function signed(bucket,path){
+ const {data,error}=await sb.storage.from(bucket).createSignedUrl(path,3600);
+ if(error) throw error; return data.signedUrl;
+}
+async function images(fs){
+ try{for(const f of [...fs]){const path=await uploadFile("photos",f);await addMemory("photo",{title:f.name,storage_path:path});}await loadAll();page("photos");
+ }catch(e){alert("فشل رفع الصورة: "+e.message)}
+}
+async function audios(fs){
+ try{for(const f of [...fs]){const path=await uploadFile("voices",f);await addMemory("audio",{title:f.name,storage_path:path});}await loadAll();page("voices");
+ }catch(e){alert("فشل رفع الفويس: "+e.message)}
+}
+async function message(){
+ const text=$("text").value.trim();if(!text)return alert("اكتب الرسالة أولاً ❤️");
+ try{await addMemory("message",{title:$("title").value.trim()||"رسالة حب",text_content:text});$("text").value="";$("title").value="";await loadAll();page("messages");
+ }catch(e){alert("فشل حفظ الرسالة: "+e.message)}
+}
+async function setStart(){
+ const d=$("startDate").value;if(!d)return;
+ const {data:{user}}=await sb.auth.getUser();
+ const {error}=await sb.from("settings").upsert({user_id:user.id,start_date:d});
+ if(error)return alert("فشل حفظ التاريخ: "+error.message);
+ state.start=d;render();alert("تم حفظ تاريخ البداية ❤️");
+}
+async function setMusic(f){
+ if(!f)return;
+ try{const path=await uploadFile("music",f);await addMemory("audio",{title:"🎵 "+f.name,storage_path:path});await loadAll();alert("تمت إضافة الموسيقى 🎵");
+ }catch(e){alert("فشل رفع الموسيقى: "+e.message)}
+}
+async function removeMemory(id,bucket,path){
+ if(!confirm("حذف هذه الذكرى؟"))return;
+ try{if(path)await sb.storage.from(bucket).remove([path]);const {error}=await sb.from("memories").delete().eq("id",id);if(error)throw error;await loadAll();
+ }catch(e){alert("فشل الحذف: "+e.message)}
+}
+async function loadAll(){
+ const {data:rows,error}=await sb.from("memories").select("*").order("created_at",{ascending:false});
+ if(error){alert("تعذر تحميل الذكريات: "+error.message);return}
+ state={images:[],audios:[],messages:[],music:null,start:""};
+ for(const r of rows||[]){
+  let bucket=r.kind==="photo"?"photos":"voices";if(r.kind==="audio"&&(r.title||"").startsWith("🎵"))bucket="music";
+  let url=null;if(r.storage_path)try{url=await signed(bucket,r.storage_path)}catch(_){}
+  const x={...r,url};if(r.kind==="photo")state.images.push(x);else if(r.kind==="message")state.messages.push(x);else state.audios.push(x);if((r.title||"").startsWith("🎵"))state.music=x;
+ }
+ const {data:{user}}=await sb.auth.getUser();const {data:settings}=await sb.from("settings").select("start_date").eq("user_id",user.id).maybeSingle();state.start=settings?.start_date||"";render();if(state.music?.url)$("player").src=state.music.url;
+}
+function render(){
+ $("pc").textContent=state.images.length;const aud=state.audios.filter(x=>!(x.title||"").startsWith("🎵"));$("vc").textContent=aud.length;$("mc").textContent=state.messages.length;$("tc").textContent=state.images.length+aud.length+state.messages.length;
+ $("photosGrid").innerHTML=state.images.length?state.images.map(x=>`<div class="photo"><img src="${x.url||""}" alt=""><button class="delete" onclick='removeMemory("${x.id}","photos","${esc(x.storage_path)}")'>×</button></div>`).join(""):`<div class="empty">ماكو صور بعد ❤️</div>`;
+ $("voicesList").innerHTML=aud.length?aud.map(x=>`<div class="item"><div class="itemtop"><b>🎙️ ${esc(x.title)}</b><button class="delete" style="position:static" onclick='removeMemory("${x.id}","voices","${esc(x.storage_path)}")'>×</button></div><small>${new Date(x.created_at).toLocaleString("ar-IQ")}</small><audio controls src="${x.url||""}"></audio></div>`).join(""):`<div class="empty">ماكو فويسات بعد ❤️</div>`;
+ $("messagesList").innerHTML=state.messages.length?state.messages.map(x=>`<div class="item"><div class="itemtop"><b>💌 ${esc(x.title)}</b><button class="delete" style="position:static" onclick='removeMemory("${x.id}","","")'>×</button></div><small>${new Date(x.created_at).toLocaleString("ar-IQ")}</small><div class="message">${esc(x.text_content)}</div></div>`).join(""):`<div class="empty">ماكو رسائل بعد ❤️</div>`;
+ const ev=[...state.messages.map(x=>({kind:"💌",text:x.title,date:x.created_at})),...state.images.map(x=>({kind:"📸",text:"صورة: "+x.title,date:x.created_at})),...aud.map(x=>({kind:"🎙️",text:"فويس: "+x.title,date:x.created_at}))].sort((a,b)=>b.date.localeCompare(a.date));
+ $("timelineList").innerHTML=ev.length?ev.map(x=>`<div class="event glass"><div class="date">${x.kind} ${new Date(x.date).toLocaleDateString("ar-IQ")}</div><div>${esc(x.text)}</div></div>`).join(""):`<div class="empty">خط الذكريات ينتظر أول لحظة ❤️</div>`;
+ if(state.start){$("startDate").value=state.start;const days=Math.max(0,Math.floor((Date.now()-new Date(state.start+"T00:00:00"))/86400000));$("days").textContent=days+" يوم";$("sinceText").textContent="منذ "+new Date(state.start+"T00:00:00").toLocaleDateString("ar-IQ")+" ❤️"}else{$("days").textContent="0 يوم";$("sinceText").textContent="حدد تاريخ البداية من قسم الإضافة"}
+ $("latest").textContent=ev[0]?ev[0].kind+" "+ev[0].text:"ابدأوا بصناعة أول ذكرى.";
+}
+function toggleMusic(){const p=$("player");if(!p.src)return alert("أضف موسيقى أولاً 🎵");p.paused?p.play():p.pause()}
+function hearts(){if(window._hearts)return;window._hearts=1;setInterval(()=>{if(document.hidden)return;let h=document.createElement("span");h.className="float-heart";h.textContent=Math.random()>.25?"♥":"♡";h.style.left=Math.random()*100+"%";h.style.fontSize=(12+Math.random()*24)+"px";h.style.animationDuration=(5+Math.random()*7)+"s";$("hearts").appendChild(h);setTimeout(()=>h.remove(),13000)},650)}
+(async()=>{const {data:{session}}=await sb.auth.getSession();if(session)openApp()})();
+</script></body></html>
