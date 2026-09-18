@@ -85,7 +85,7 @@ footer{text-align:center;color:#765f69;padding:25px}.music{position:fixed;left:1
   <label>📅 تاريخ بداية علاقتنا</label><input id="startDate" type="date">
   <button class="btn alt" onclick="setStart()">حفظ تاريخ العداد ❤️</button>
   <hr style="width:100%;border-color:#ff477f22">
-  <button class="btn alt" onclick="document.getElementById('img').click()">📸 اختيار صور</button><input id="img" type="file" accept="image/*" multiple hidden onchange="images(this.files)">
+  <label class="btn alt" for="img" style="display:inline-block;cursor:pointer">📸 اختيار صور</label><input id="img" type="file" accept="image/*" multiple style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0" onchange="images(event.target.files)">
   <button class="btn alt" onclick="document.getElementById('aud').click()">🎙️ اختيار فويسات</button><input id="aud" type="file" accept="audio/*" multiple hidden onchange="audios(this.files)">
   <input id="title" type="text" placeholder="عنوان الرسالة (اختياري)">
   <textarea id="text" placeholder="اكتب رسالة حب هنا... ❤️"></textarea>
