@@ -42,6 +42,7 @@ footer{text-align:center;color:#765f69;padding:25px}.music{position:fixed;left:1
   <input id="email" class="input" type="email" placeholder="📧 إيميل الحساب المشترك" autocomplete="username">
   <input id="pass" class="input" type="password" placeholder="🔐 كلمة السر" autocomplete="current-password">
   <button class="btn" style="width:100%" onclick="login()">دخول إلى عالمنا ❤️</button>
+  <button class="btn alt" style="width:100%;margin-top:10px" onclick="signup()">إنشاء حساب جديد للموقع ❤️</button>
   <div id="err" class="err"></div>
  </div>
  <div id="recoveryCard" class="recovery-card hidden">
@@ -124,6 +125,15 @@ async function updatePassword(){
  $("recoveryErr").textContent="تم تغيير كلمة السر ❤️";
  history.replaceState({},document.title,location.pathname+location.search);
  setTimeout(()=>openApp(),500);
+}
+async function signup(){
+ const email=$("email").value.trim(),password=$("pass").value;
+ if(!email||password.length<6){$("err").textContent="اكتب إيميل صحيح وكلمة سر من 6 أحرف على الأقل ❤️";return}
+ $("err").textContent="جاري إنشاء الحساب...";
+ try{const {data,error}=await sb.auth.signUp({email,password});if(error)throw error;
+ $("err").textContent=data.session?"تم إنشاء الحساب ❤️":"تم إرسال رسالة تأكيد للإيميل، افتحها ثم سجّل دخول ❤️";
+ if(data.session)await openApp();
+ }catch(e){$("err").textContent="تعذر إنشاء الحساب: "+(e?.message||e)}
 }
 async function login(){
  const email=$("email").value.trim(), password=$("pass").value;
